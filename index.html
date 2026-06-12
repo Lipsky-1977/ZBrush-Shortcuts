@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ZBrush 2026 快捷键查询</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27><rect width=%2732%27 height=%2732%27 rx=%274%27 fill=%27%232a2a2a%27/><text x=%2716%27 y=%2722%27 font-size=%2716%27 font-weight=%27bold%27 fill=%27%2300C853%27 text-anchor=%27middle%27>Z</text></svg>">
+<style>
+:root{--bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f2;--border:#e0e0e4;--text:#1d1d1f;--text2:#8e8e93;--accent:#00C853;--accent2:#00a844;--accent-bg:rgba(0,200,83,.12);--radius:10px;--shadow:0 .5px 2px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.header{background:linear-gradient(180deg,#1a2a1a 0%,#1e3a1e 100%);padding:0 0 10px 0;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.2)}
+.header-top{display:flex;align-items:center;gap:8px;padding:10px 14px 8px}
+.header-top h1{font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.header-top h1 span{color:var(--accent)}
+.header-top .badge{font-size:10px;color:#98989d;background:rgba(255,255,255,.08);padding:1px 7px;border-radius:10px;margin-left:2px}
+.search-wrap{position:relative;margin:0 14px}
+.search-wrap .icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#8e8e93;pointer-events:none}
+.search-bar{-webkit-appearance:none;appearance:none;width:100%;padding:9px 12px 9px 34px;border-radius:8px;border:1px solid #2a5a2a;background:#2a4a2a;color:#f5f5f7;font-size:15px;outline:none;transition:border .2s,background .2s}
+.search-bar::placeholder{color:#8e8e93;font-size:14px}
+.search-bar:focus{border-color:var(--accent);background:#1a3a1a}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding:8px 14px 4px;scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;background:var(--bg)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 13px;border-radius:16px;border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:pointer;transition:all .2s;color:var(--text2);white-space:nowrap;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.tab:active{transform:scale(.95)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.tab .cnt{font-size:10px;opacity:.65;margin-left:3px}
+.stats{font-size:12px;color:var(--text2);padding:8px 14px 6px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:flex;flex-direction:column;gap:5px;padding:0 12px 60px}
+.item{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border-radius:var(--radius);padding:10px 12px;border:1px solid var(--border);cursor:default;transition:border .15s,box-shadow .15s,transform .1s;touch-action:manipulation;animation:fadeIn .18s ease-out}
+.item:active{transform:scale(.98)}
+.keys{display:flex;gap:3px;flex-wrap:wrap;flex-shrink:0;max-width:140px}
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:26px;padding:0 6px;background:linear-gradient(180deg,#2c2c2e 0%,#1d1d1f 100%);color:#f5f5f7;border-radius:4px;font-size:11px;font-weight:700;font-family:"SF Mono",Menlo,monospace;border-bottom:1.5px solid #000;letter-spacing:-.2px}
+.key.accent{background:linear-gradient(180deg,var(--accent) 0%,#009933 100%);border-bottom-color:#006622;color:#fff}
+.key.mod{font-size:9px;padding:0 4px;min-width:22px}
+.key.special{background:linear-gradient(180deg,#5a5a5e,#3a3a3c);border-bottom-color:#29292b;font-size:10px;min-width:22px}
+.desc{flex:1;min-width:0;font-size:13px;line-height:1.4}
+.detail{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.3}
+.no-results{text-align:center;padding:60px 20px;color:var(--text2)}
+.no-results svg{width:40px;height:40px;margin-bottom:10px;opacity:.35}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(245,245,247,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);z-index:200}
+.bottom-bar .info{font-size:11px;color:var(--text2)}
+.bottom-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;touch-action:manipulation}
+.bottom-btn:active{opacity:.8}
+.bottom-btn svg{width:14px;height:14px}
+@media(prefers-color-scheme:dark){
+:root{--bg:#1c1c1e;--surface:#2c2c2e;--surface2:#3a3a3c;--border:#48484a;--text:#f5f5f7;--text2:#98989d;--accent-bg:rgba(0,200,83,.15);--shadow:0 .5px 2px rgba(0,0,0,.25),0 1px 4px rgba(0,0,0,.2)}
+.bottom-bar{background:rgba(28,28,30,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <h1><svg width="20" height="20" viewBox="0 0 32 32"><rect width="32" height="32" rx="5" fill="%2300C853"/><text x="16" y="22" font-size="17" font-weight="bold" fill="%23fff" text-anchor="middle">Z</text></svg>ZBrush <span>2026</span><span class="badge" id="totalBadge">0</span></h1>
+  </div>
+  <form class="search-wrap" id="searchForm" autocomplete="off">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input class="search-bar" id="searchInput" type="search" placeholder="搜索快捷键…" enterkeyhint="search">
+  </form>
+</div>
+<div class="tabs" id="tabsContainer"></div>
+<div class="stats"><span id="resultCount">全部</span></div>
+<div class="grid" id="grid"></div>
+<div class="no-results" id="noResults" style="display:none">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  <div style="font-size:15px;font-weight:600;margin-bottom:3px">没有匹配的快捷键</div>
+  <div style="font-size:13px">换个关键词或分类试试</div>
+</div>
+<div class="bottom-bar">
+  <span class="info" id="bottomInfo">全部</span>
+  <button class="bottom-btn" id="scrollTopBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    顶部
+  </button>
+</div>
+<script>
+const D=[
+  // ── 视图控制 ──
+  {keys:["Alt","左键"],desc:"视图环绕",cat:"视图控制",detail:"Alt+拖拽左键 环绕旋转",m:true},
+  {keys:["Alt","中键"],desc:"视图平移",cat:"视图控制",detail:"Alt+拖拽中键 平移视图",m:true},
+  {keys:["Alt","右键"],desc:"视图缩放",cat:"视图控制",detail:"Alt+拖拽右键 推拉缩放",m:true},
+  {keys:["Ctrl","左键","拖"],desc:"框选缩放",cat:"视图控制",detail:"Ctrl+拖拽 框选区域放大",m:true},
+  {keys:["F"],desc:"适配屏幕",cat:"视图控制",detail:"将模型适配到视口中心"},
+  {keys:["Shift","F"],desc:"网格框线",cat:"视图控制",detail:"切换显示多边形网格框线"},
+  {keys:["P"],desc:"透视切换",cat:"视图控制",detail:"切换透视/正交视图"},
+  {keys:["0"],desc:"摄像机视图",cat:"视图控制",detail:"切换到摄像机视角"},
+  {keys:["Ctrl","0"],desc:"设置摄像机",cat:"视图控制",detail:"将当前视口设为摄像机"},
+  {keys:["N"],desc:"法线视图",cat:"视图控制",detail:"显示法线方向视图"},
+  {keys:["Tab"],desc:"全屏切换",cat:"视图控制",detail:"切换全屏模式隐藏UI"},
+  {keys:["~"],desc:"UI切换",cat:"视图控制",detail:"显示/隐藏所有UI元素"},
+  {keys:["[","]"],desc:"视图旋转微调",cat:"视图控制",detail:"[和]键微调视图旋转角度"},
+
+  // ── 笔刷控制 ──
+  {keys:["B"],desc:"笔刷菜单",cat:"笔刷控制",detail:"打开笔刷选择菜单"},
+  {keys:["S"],desc:"笔刷大小",cat:"笔刷控制",detail:"拖拽调整笔刷Draw Size"},
+  {keys:["U"],desc:"Z强度",cat:"笔刷控制",detail:"拖拽调整Z Intensity（笔刷深度）"},
+  {keys:["I"],desc:"颜色强度",cat:"笔刷控制",detail:"拖拽调整RGB Intensity"},
+  {keys:["Alt"],desc:"反转效果",cat:"笔刷控制",detail:"按住Alt反转笔刷效果（凹陷/凸起）"},
+  {keys:["Shift"],desc:"平滑笔刷",cat:"笔刷控制",detail:"按住Shift临时切换为Smooth笔刷"},
+  {keys:[","],desc:"上一个笔刷",cat:"笔刷控制",detail:"切换到上一个使用的笔刷"},
+  {keys:["."],desc:"下一个笔刷",cat:"笔刷控制",detail:"切换到下一个笔刷"},
+  {keys:["/"],desc:"搜索笔刷",cat:"笔刷控制",detail:"搜索并快速切换笔刷"},
+  {keys:["Ctrl","/"],desc:"笔刷参数",cat:"笔刷控制",detail:"打开当前笔刷的参数设置"},
+  {keys:["L"],desc:"惰性鼠标",cat:"笔刷控制",detail:"LazyMouse - 开启/关闭平滑笔触"},
+  {keys:["Shift","L"],desc:"惰性设置",cat:"笔刷控制",detail:"打开LazyMouse参数设置"},
+
+  // ── 雕刻与几何 ──
+  {keys:["Ctrl","D"],desc:"细分",cat:"雕刻与几何",detail:"Divide - 对模型进行细分"},
+  {keys:["Shift","D"],desc:"动态网格",cat:"雕刻与几何",detail:"DynaMesh - 重新拓扑网格"},
+  {keys:["Ctrl","Shift","D"],desc:"重建细分",cat:"雕刻与几何",detail:"Reconstruct Subdiv - 重建细分层级"},
+  {keys:["A"],desc:"自适应蒙皮",cat:"雕刻与几何",detail:"Adaptive Skin - 预览蒙皮效果"},
+  {keys:["Shift","A"],desc:"预览蒙皮",cat:"雕刻与几何",detail:"Preview Adaptive Skin"},
+  {keys:["Ctrl","Shift","A"],desc:"应用到网格",cat:"雕刻与几何",detail:"将蒙皮或修改应用到网格"},
+  {keys:["G"],desc:"重新姿态",cat:"雕刻与几何",detail:"Repose - 使用Transpose重定姿态"},
+  {keys:["Shift","G"],desc:"姿态选项",cat:"雕刻与几何",detail:"打开重定姿态参数选项"},
+  {keys:["C"],desc:"颜色绘制",cat:"雕刻与几何",detail:"开启/关闭颜色绘制模式"},
+  {keys:["M"],desc:"遮罩笔刷",cat:"雕刻与几何",detail:"切换到遮罩绘制笔刷"},
+  {keys:["Ctrl","Shift","T"],desc:"Transpose",cat:"雕刻与几何",detail:"激活Transpose变换工具"},
+  {keys:["Ctrl","Shift","P"],desc:"投影全部",cat:"雕刻与几何",detail:"Project All - 投影细节到低模"},
+  {keys:["Ctrl","Shift","E"],desc:"循环边",cat:"雕刻与几何",detail:"插入循环边到网格"},
+  {keys:["Ctrl","Shift","B"],desc:"边界环",cat:"雕刻与几何",detail:"选择循环边界边"},
+
+  // ── 变换操作 ──
+  {keys:["Q"],desc:"绘制模式",cat:"变换操作",detail:"Draw Mode - 默认编辑绘制模式"},
+  {keys:["W"],desc:"移动模式",cat:"变换操作",detail:"Move Mode - 激活移动变换"},
+  {keys:["E"],desc:"旋转模式",cat:"变换操作",detail:"Rotate Mode - 激活旋转变换"},
+  {keys:["R"],desc:"缩放模式",cat:"变换操作",detail:"Scale Mode - 激活缩放变换"},
+  {keys:["T"],desc:"编辑模式",cat:"变换操作",detail:"Edit Mode - 切换编辑/绘制模式"},
+  {keys:["Shift","W"],desc:"移动轴约束",cat:"变换操作",detail:"移动时约束到特定轴"},
+  {keys:["Shift","E"],desc:"旋转轴约束",cat:"变换操作",detail:"旋转时约束到特定轴"},
+  {keys:["Shift","R"],desc:"缩放轴约束",cat:"变换操作",detail:"缩放时约束到特定轴"},
+
+  // ── 遮罩与选择 ──
+  {keys:["Ctrl","拖拽"],desc:"绘制遮罩",cat:"遮罩与选择",detail:"Ctrl+拖拽在模型上绘制遮罩",m:true},
+  {keys:["Ctrl","Alt","拖拽"],desc:"减少遮罩",cat:"遮罩与选择",detail:"Ctrl+Alt+拖拽减去遮罩区域",m:true},
+  {keys:["Ctrl","Shift","A"],desc:"清除遮罩",cat:"遮罩与选择",detail:"清除全部遮罩"},
+  {keys:["Ctrl","I"],desc:"反转遮罩",cat:"遮罩与选择",detail:"反转遮罩区域"},
+  {keys:["Ctrl","Shift","M"],desc:"按凹陷遮罩",cat:"遮罩与选择",detail:"Mask by Cavity - 按表面凹凸遮罩"},
+  {keys:["Ctrl","Shift","U"],desc:"按UV遮罩",cat:"遮罩与选择",detail:"Mask by UV - 按UV接缝遮罩"},
+  {keys:["Ctrl","Shift","G"],desc:"组遮罩",cat:"遮罩与选择",detail:"Mask by Polygroup - 按多边形组遮罩"},
+  {keys:["M"],desc:"遮罩笔",cat:"遮罩与选择",detail:"切换到遮罩笔刷工具"},
+  {keys:["Ctrl","Shift","I"],desc:"反选隐藏",cat:"遮罩与选择",detail:"反转当前隐藏/可见状态"},
+  {keys:["Ctrl","Shift","H"],desc:"隐藏点",cat:"遮罩与选择",detail:"隐藏选中的多边形"},
+  {keys:["H"],desc:"隐藏/显示",cat:"遮罩与选择",detail:"H=隐藏选中 Shift+H=显示全部"},
+
+  // ── 多边形组 ──
+  {keys:["Ctrl","W"],desc:"创建多边形组",cat:"多边形组",detail:"Polygroup - 从遮罩创建多边形组"},
+  {keys:["Ctrl","Shift","W"],desc:"按法线分组",cat:"多边形组",detail:"Group by Normals - 按法线方向分组"},
+  {keys:["Ctrl","F"],desc:"填充组",cat:"多边形组",detail:"Fill Polygroup - 填充完整多边形组"},
+  {keys:["Ctrl","Shift","F"],desc:"从组创建颜色",cat:"多边形组",detail:"从多边形组生成Polypaint"},
+  {keys:["Ctrl","Shift","E"],desc:"循环边选择",cat:"多边形组",detail:"在边模式下选择循环边"},
+  {keys:["Shift","F"],desc:"网格框线",cat:"多边形组",detail:"Polyframe - 显示多边形网格线"},
+  {keys:["Shift","Ctrl","F"],desc:"框线设置",cat:"多边形组",detail:"打开Polyframe显示设置"},
+  {keys:["Ctrl","click","边"],desc:"选择循环边",cat:"多边形组",detail:"Ctrl+点击边选择整条循环边",m:true},
+  {keys:["Ctrl","Shift","click"],desc:"选择环边",cat:"多边形组",detail:"Ctrl+Shift+点击选择整条环边",m:true},
+
+  // ── 工具与面板 ──
+  {keys:["Space"],desc:"快速菜单",cat:"工具与面板",detail:"在光标位置打开快捷菜单"},
+  {keys:["Shift","Space"],desc:"光标菜单",cat:"工具与面板",detail:"光标处打开常用工具菜单"},
+  {keys:["Ctrl","Space"],desc:"工具菜单",cat:"工具与面板",detail:"打开完整工具选择菜单"},
+  {keys:["F1"],desc:"帮助",cat:"工具与面板",detail:"打开ZBrush帮助文档"},
+  {keys:["F2"],desc:"笔刷面板",cat:"工具与面板",detail:"打开Brush笔刷库面板"},
+  {keys:["F3"],desc:"笔触面板",cat:"工具与面板",detail:"打开Stroke笔触设置面板"},
+  {keys:["F4"],desc:"Alpha面板",cat:"工具与面板",detail:"打开Alpha纹理库面板"},
+  {keys:["F5"],desc:"纹理面板",cat:"工具与面板",detail:"打开Texture纹理面板"},
+  {keys:["F6"],desc:"材质面板",cat:"工具与面板",detail:"打开Material材质库面板"},
+  {keys:["F7"],desc:"工具面板",cat:"工具与面板",detail:"打开Tool工具配置面板"},
+  {keys:["F8"],desc:"渲染面板",cat:"工具与面板",detail:"打开Render渲染设置面板"},
+  {keys:["F9"],desc:"库面板",cat:"工具与面板",detail:"打开Library库面板"},
+  {keys:["F10"],desc:"参数设置",cat:"工具与面板",detail:"打开Preferences偏好设置"},
+  {keys:["Ctrl","P"],desc:"参数设置",cat:"工具与面板",detail:"打开参数配置面板"},
+  {keys:["Ctrl","I"],desc:"信息面板",cat:"工具与面板",detail:"打开模型信息统计面板"},
+
+  // ── 编辑操作 ──
+  {keys:["Ctrl","Z"],desc:"撤销",cat:"编辑操作",detail:"Undo - 撤销上一步操作"},
+  {keys:["Ctrl","Shift","Z"],desc:"重做",cat:"编辑操作",detail:"Redo - 重做已撤销操作"},
+  {keys:["Ctrl","C"],desc:"复制",cat:"编辑操作",detail:"复制选中的子工具或对象"},
+  {keys:["Ctrl","V"],desc:"粘贴",cat:"编辑操作",detail:"粘贴子工具或对象"},
+  {keys:["Ctrl","N"],desc:"清除画布",cat:"编辑操作",detail:"清除画布上的所有内容"},
+  {keys:["Ctrl","A"],desc:"全选",cat:"编辑操作",detail:"选择全部顶点或多边形"},
+  {keys:["Ctrl","D"],desc:"取消选择",cat:"编辑操作",detail:"取消当前选择"},
+  {keys:["Delete"],desc:"删除隐藏",cat:"编辑操作",detail:"删除所有隐藏的多边形"},
+  {keys:["Shift","Delete"],desc:"删除选项",cat:"编辑操作",detail:"打开删除选项菜单"},
+  {keys:["Escape"],desc:"取消",cat:"编辑操作",detail:"取消当前操作"},
+
+  // ── 文件操作 ──
+  {keys:["Ctrl","N"],desc:"新建",cat:"文件操作",detail:"新建ZBrush项目"},
+  {keys:["Ctrl","O"],desc:"打开",cat:"文件操作",detail:"打开ZBrush项目文件"},
+  {keys:["Ctrl","S"],desc:"保存",cat:"文件操作",detail:"保存当前项目"},
+  {keys:["Ctrl","Shift","S"],desc:"另存为",cat:"文件操作",detail:"项目另存为新文件"},
+  {keys:["Ctrl","T"],desc:"加载纹理",cat:"文件操作",detail:"加载纹理图像文件"},
+  {keys:["Ctrl","Shift","T"],desc:"加载工具",cat:"文件操作",detail:"加载ZBrush工具文件"},
+  {keys:["Ctrl","Shift","E"],desc:"导出",cat:"文件操作",detail:"导出模型为OBJ/FBX等格式"},
+  {keys:["Ctrl","Shift","I"],desc:"导入",cat:"文件操作",detail:"导入外部模型文件"},
+  {keys:["Ctrl","Shift","R"],desc:"重置",cat:"文件操作",detail:"重置/恢复默认设置"},
+  {keys:["Ctrl","Q"],desc:"退出",cat:"文件操作",detail:"退出ZBrush"},
+
+  // ── 材质与渲染 ──
+  {keys:["F6"],desc:"材质面板",cat:"材质与渲染",detail:"打开Material材质库"},
+  {keys:["F8"],desc:"渲染面板",cat:"材质与渲染",detail:"打开Render渲染设置"},
+  {keys:["Shift","B"],desc:"最佳渲染",cat:"材质与渲染",detail:"Best Preview Render - 高质量预览"},
+  {keys:["Ctrl","Shift","B"],desc:"BPR渲染",cat:"材质与渲染",detail:"执行最佳预览渲染"},
+  {keys:["R"],desc:"渲染",cat:"材质与渲染",detail:"开始渲染当前视图"},
+  {keys:["9"],desc:"预览渲染",cat:"材质与渲染",detail:"预览渲染结果"},
+  {keys:["Ctrl","9"],desc:"完整渲染",cat:"材质与渲染",detail:"执行完整渲染"},
+  {keys:["Shift","R"],desc:"渲染选项",cat:"材质与渲染",detail:"打开渲染参数设置"},
+
+  // ── 子工具 ──
+  {keys:["Z"],desc:"子工具菜单",cat:"子工具",detail:"SubTool - 打开子工具管理菜单"},
+  {keys:["Shift","Z"],desc:"子工具列表",cat:"子工具",detail:"查看全部子工具列表"},
+  {keys:["Ctrl","Down"],desc:"下一个子工具",cat:"子工具",detail:"切换到下一个子工具"},
+  {keys:["Ctrl","Up"],desc:"上一个子工具",cat:"子工具",detail:"切换到上一个子工具"},
+  {keys:["Shift","S"],desc:"子工具可见",cat:"子工具",detail:"切换当前子工具的可见性"},
+  {keys:["Ctrl","Shift","Z"],desc:"切换子工具",cat:"子工具",detail:"在不同子工具间快速切换"},
+
+  // ── 对称与轴 ──
+  {keys:["X"],desc:"X轴对称",cat:"对称与轴",detail:"切换X轴雕刻对称"},
+  {keys:["Y"],desc:"Y轴对称",cat:"对称与轴",detail:"切换Y轴雕刻对称"},
+  {keys:["Z"],desc:"Z轴对称",cat:"对称与轴",detail:"切换Z轴雕刻对称"},
+  {keys:["Shift","X"],desc:"对称设置",cat:"对称与轴",detail:"打开对称参数设置面板"},
+  {keys:["Shift","Y"],desc:"局部对称",cat:"对称与轴",detail:"切换局部对称模式"},
+  {keys:["Ctrl","X"],desc:"对称镜像",cat:"对称与轴",detail:"镜像并合并对称雕刻"},
+];
+let A="全部",Q="";
+const C=[...new Set(D.map(s=>s.cat))].sort((a,b)=>D.filter(x=>x.cat===b).length-D.filter(x=>x.cat===a).length);
+function rK(k,m){if(k==="左键"||k==="中键"||k==="右键"||k==="拖"||k==="拖拽"||k==="边"||k==="click")return `<span class="key special">${k}</span>`;let c="key";if(k==="Ctrl"||k==="Shift"||k==="Alt")c+=" mod";else if(k==="Space"||k==="Tab"||k==="Home"||k==="End"||k==="Delete"||k==="Backspace"||k==="Enter"||k==="Escape")c+=" accent";else if(k.length>=2&&k[0]==="F")c+=" accent";else if(m)c+=" accent";return `<span class="${c}">${k}</span>`}
+function rI(s){return `<div class="item"><div class="keys">${s.keys.map(k=>rK(k,s.keys.length>1)).join("")}</div><div class="desc">${s.desc}<div class="detail">${s.detail||""}</div></div></div>`}
+function rA(){const g=document.getElementById("grid"),n=document.getElementById("noResults"),r=document.getElementById("resultCount"),b=document.getElementById("bottomInfo");let i=D;A!=="全部"&&(i=i.filter(s=>s.cat===A));if(Q.trim()){const q=Q.trim().toLowerCase();i=i.filter(s=>(s.desc+" "+s.keys.join(" ")+" "+(s.detail||"")).toLowerCase().includes(q))}g.innerHTML=i.map(rI).join("");n.style.display=i.length?"none":"block";const t=A==="全部"?`共 ${i.length} 条`:`${A} · ${i.length} 条`;r.textContent=t;b.textContent=t}
+function rT(){const c=document.getElementById("tabsContainer"),ac=D.length;let h=`<div class="tab${A==="全部"?" active":""}" data-cat="全部">全部<span class="cnt">${ac}</span></div>`;C.forEach(cat=>{const cnt=D.filter(s=>s.cat===cat).length;h+=`<div class="tab${A===cat?" active":""}" data-cat="${cat}">${cat}<span class="cnt">${cnt}</span></div>`});c.innerHTML=h;c.querySelectorAll(".tab").forEach(el=>{el.addEventListener("click",()=>{A=el.dataset.cat;rT();rA()})})}
+document.getElementById("totalBadge").textContent=D.length;
+const si=document.getElementById("searchInput");si.addEventListener("input",()=>{Q=si.value;rA()});document.getElementById("searchForm").addEventListener("submit",e=>e.preventDefault());
+document.getElementById("scrollTopBtn").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+rT();rA();
+</script>
+</body>
+</html>
